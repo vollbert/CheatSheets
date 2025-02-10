@@ -284,8 +284,100 @@
 
 \paragraph{Completion}
 
+\paragraph{Communication}
+\begin{enumerate}
+  \item Shared-memory communication
+    \begin{enumerate}
+      \item The sending process writes a global variable into a shared resource (shared memory)
+      \item All receiving processes can now read this variable (good broadcasting properties)
+      \item Any necessary synchronization must be accomplished separately
+    \end{enumerate}
+  \item Message passing communication
+    \begin{enumerate}
+    	\item Data is exchanged between processes using a communication channel to pass messages
+	\item Processes can access the channel using send/receive primitives
+	\item At higher levels of abstraction, channels are virtual entities and not bound by implementation details
+	\item  Channels can be unidirectional or bidirectional, using a point to point or shared (addressed) bus infrastructure
+    \end{enumerate}
+
+    \textbf{Blocking transfer} the sending process waits until the receiving process has accepted (or is ready to provide) the data (requires synchronization of the processes prior to the transfer)
+    \textbf{non-blocking transfer} the sending process writes the data into a queue and immediately continues processing. The receiving process can then read the data from the queue at its leisure. This allows the sending and receivingprocesses to work independently, but requires additional memory (queues).
+\end{enumerate}
+
+\paragraph{Synchronization}
+\begin{enumerate}
+  \item Control-oriented synchronization
+    \begin{enumerate}
+    	\item The control structure of the behavioral description determines the synchronization between processes
+    \end{enumerate}
+  \item Data-oriented synchronization
+    \begin{enumerate}
+    	\item Synchronization is accomplished using inter-process communication
+	  \begin{enumerate}
+	    \item Synchronization using shared memory
+	    \item Synchronization using message passing
+	  \end{enumerate}
+    \end{enumerate}
+\end{enumerate}
+ 
+\paragraph{Exception Handling} Certain events, such as a reset or CPU interrupt, can necessitate the abrupt termination of a process
+
+\paragraph{Non-Determinism} Occasionally it may be unclear which of several state transitions or
+sequences of operations are best suited for the application at hand
 
 \section{Synthesis}
+
+\paragraph{Design Synthesis} 
+Combined process of Implementation, Refinement(and Optimization)
+
+\textbf{Central tasks of design synthesis:}
+
+\begin{enumerate}
+	\item Allocation: Selection and provisioning of processing resources
+	\item Mapping: Assignment of functions to resources
+	\item Scheduling: Determination of execution sequences and start times for tasks/processes under consideration of data dependencies in the task graph
+\end{enumerate}
+
+\paragraph{System Synthesis}
+\begin{enumerate}
+  \item Allocation: Determine
+    \begin{enumerate}
+      \item type and number of CPU/DSP cores,
+      \item size of memories,
+      \item standard and application specific hardware building blocks,
+      \item  I/O interfaces and
+      \item interconnect structures
+    \end{enumerate}
+  \item Mapping: Assignment of entire sub-systems / tasks of the system model to HW / SW resources (HW/SW-Codesign)
+    \begin{enumerate}
+      \item Scheduling: Determine the
+      \item execution sequence of tasks and communication transactions between different resources
+      \item execution sequence of tasks which have been mapped to the same resource
+    \end{enumerate}
+\end{enumerate}
+
+\paragraph{Task Graph}
+
+\begin{center}
+  \includegraphics[width=\linewidth]{assets/TaskGraph.png}
+  \label{fig:taskgraph}
+\end{center}
+
+\paragraph{Resource Graph}
+
+\begin{center}
+  \includegraphics[width=\linewidth]{assets/ResourceGraph.png}
+  \label{fig:resourcegraph}
+\end{center}
+
+\paragraph{Architecture Graph}
+
+\paragraph{Allocation} Allocation is a function $\alpha$ ..
+
+\paragraph{Mapping}
+
+
+
 \section{Scheduling}
 \section{Estimation}
 
