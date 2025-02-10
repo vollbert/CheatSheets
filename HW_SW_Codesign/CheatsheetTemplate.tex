@@ -16,7 +16,7 @@
 
 % set document information
 \title{HW/SW Codesign \\ Cheat Sheet}
-\author{LaTeX4EI}                    % optional, delete if unchanged
+\author{Fabian Olbert}                    % optional, delete if unchanged
 \myemail{fabian.olbert@gmail.com}           % optional, delete if unchanged
 % \mywebsite{www.latex4ei.de}          % optional, delete if unchanged
 \usepackage{float}
@@ -49,6 +49,7 @@
 
 \begin{enumerate}
 	\item R(t): Probability that a system works correct until time t presuming it worked correct at a reference time $t_0 = 0$
+	\item \textbf{failure rate}: $\lambda$
 	\item For constant failure rate $\lambda$: $R(t)= e^{-\lambda t} $
 	\item \textbf{Metric}: $MTTF = 1 / \lambda$
 	\item \textbf{Reliability of Series Systems}: all n components are functional
@@ -56,12 +57,13 @@
 	\item $R_{sys}(t) = R_1(t) \cdot R_2(t)...R_n(t) = \prod_i^n R_i(t)$
 	\item Failure probability: $F(t) = 1 - R(t)$
 	\item $R_{sys} \leq min(R_i)$
-\item 	\end{enumerate}
-	\item \textbf{Failure of Parallel Systems}: a single path i is functional
-		\begin{enumerate}
-			\item $F_{sys}(t) = F_1(t) \cdot F_2(t)...F_n(t) = \prod_i^n F_i(t)$
-			\item $R(t) = 1 - F(t)$
-		\end{enumerate}
+	\item $\lambda_{sys} = \sum_i^n \lambda_i$ 
+	\end{enumerate}
+        \item \textbf{Failure of Parallel Systems}: a single path i is functional
+	\begin{enumerate}
+	  \item $F_{sys}(t) = F_1(t) \cdot F_2(t)...F_n(t) = \prod_i^n F_i(t)$
+	  \item $R(t) = 1 - F(t)$
+	\end{enumerate}
 
 \end{enumerate}
 
@@ -80,12 +82,9 @@
 
 \paragraph{Abstraction Levels}
 
-\begin{figure}[H]
-  \centering
+\begin{center}
   \includegraphics[width=0.8\linewidth]{assets/AbstractionLevels.png}
-  % \caption{}
-  \label{fig:abstractionlevels}
-\end{figure}
+\end{center}
 
 
 \section{Methodology}
@@ -109,7 +108,7 @@
 
 \textbf{Abstraction} Design flaws or errors resulting from imprecise modeling or insufficient exploration require abstraction and reiteration of design flow at next higher layer
  
-\pragraph{Bottom Up Design}
+\paragraph{Bottom Up Design}
 
 \begin{center}
   \includegraphics[width=0.8\linewidth]{assets/BottomUpDesign.png}
@@ -152,6 +151,24 @@
   \includegraphics[width=0.8\linewidth]{assets/VModel.png}
 \end{center}
 
+\paragraph{Tutorial}
+
+\textbf{linear extrapolation} $\frac{y - y_0}{x - x_0} = \frac{y_1 - y_0}{x_1 - x_0}$
+
+\textbf{finite sum of positive integers} $\sum_{i=1}^{N} = \frac{N(N+1)}{2}$
+
+\textbf{Difference from Solution} $\frac{after - before}{before}$
+ 
+\textbf{Linear Time Complexity} $ O(N)$
+
+\textbf{Quadratic Time Complexity} $ O(N^2)$
+
+\textbf{Linearithmic Time Complexity} $ O(N log_2(N))$
+
+\textbf{Execution Time} $T_{exec} = \frac{CPI \cdot Ops}{f_{cpu}}$
+ 
+\textbf{Optimization} Parallelize tasks that are non dependent, run bottleneck tasks on HW
+
 
 \section{Specification \& Modeling}
 
@@ -164,6 +181,109 @@
 	\item functionality of the system
 	\item constrains / properties (latency, power dissipation...)
 \end{enumerate}
+
+\textbf{Virtual Prototoypes} Alllow for HW and SW components of a system to be developed in parallel.
+
+\paragraph{Models of Computation}
+
+\begin{center}
+  \includegraphics[width=0.8\linewidth]{assets/ModelsOfComputation.png}
+\end{center}
+
+\subsection{State-Oriented Models}
+
+\paragraph{Finite State Machine}
+
+\begin{center}[h]
+  \includegraphics[width=0.8\linewidth]{assets/FiniteStateMachine.png}
+  \label{fig:finitestatemachine}
+\end{center}
+
+\paragraph{Control Flow Graph}
+
+\begin{center}
+  \includegraphics[width=0.8\linewidth]{assets/ControlFlowGraph.png}
+  \label{fig:controlflowgraph}
+\end{center}
+
+\subsection{Activity Oriented Model}
+
+\paragraph{Data Flow Graph}
+ 
+\begin{center}
+  \includegraphics[width=0.8\linewidth]{assets/DataFlowGraph.png}
+  \label{fig:dataflowgraph}
+\end{center}
+
+\paragraph{Kahn Process Networks (KPNs)}
+
+\textbf{deadlocks}
+\begin{enumerate}
+  \item \textbf{True deadlock}: read from an empty buffer (KPN read semantics) which is never filled again
+\item \textbf{Artificial deadlock}: write into a full buffer (bounded memories) which is never read again
+\end{enumerate}
+
+\textbf{Boundness}: Does the schedule require infinite memory?
+
+\textbf{Completeness}: Do all processes get to run indefinitely?
+
+\textbf{Non-Termination}: Will the there be deadlocks?
+
+\textbf{Data driven scheduling}
+\begin{enumerate}
+	\item execute a process as soon as tokens are available
+	\item Does not necessarily find a schedule with bounded buffers even if one exists
+	\item Prefers completeness over boundedness
+\end{enumerate}
+
+\begin{center}
+  \includegraphics[width=0.8\linewidth]{assets/KPNDataExample.png}
+  \label{fig:kpndataexample}
+\end{center}
+
+\textbf{Parks' Algorithm}: finds a schedule with bounded buffers if one exists
+\begin{enumerate}
+	\item Start with buffer size 1 for all channels.
+	\item Apply data driven schedule.
+	\item If termination occurs, increase buffer sizes by 1.
+	\item Repeat.
+	\item[$\bullet$] Prefers boundedness over completeness (non-termination)
+	\item[$\bullet$] It is not guaranteed that Parks’ Algorithm finds a bounded and complete schedule
+\end{enumerate}
+
+\begin{center}
+  \includegraphics[width=0.8\linewidth]{assets/KPNExamplePark.png}
+  \label{fig:kpnexamplepark}
+\end{center}
+ 
+\textbf{Properties KPN} No matter what the execution speed or schedule of the processes is, the KPN will always give the same result -$>$ Independent of timing -$>$ deterministic
+
+\subsection{Synchronous Dataflow (SDF)}
+
+\begin{center}
+  \includegraphics[width=\linewidth]{assets/SDFExample.png}
+  \label{fig:sdfexample}
+\end{center}
+ 
+\begin{center}
+  \includegraphics[width=\linewidth]{assets/SDFExample2.png}
+  \label{fig:sdfexample2}
+\end{center}
+
+\paragraph{Structure Oriented Model}
+
+\paragraph{Data Oriented Model}
+
+\paragraph{Concurrency}
+
+\paragraph{Hierarchy}
+
+\paragraph{Structural-/Behavioral-Hierarchy}
+
+\paragraph{Program Structures/Constructs}
+
+\paragraph{Completion}
+
 
 \section{Synthesis}
 \section{Scheduling}
