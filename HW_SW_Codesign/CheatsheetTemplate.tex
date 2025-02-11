@@ -376,9 +376,174 @@ Combined process of Implementation, Refinement(and Optimization)
 
 \paragraph{Mapping}
 
+\paragraph{Partitioning Problem}
 
+\begin{center}[H]
+  \centering
+  \includegraphics[width=\linewidth]{assets/PartitioningProblem.png}
+  \label{fig:partitioningproblem}
+\end{center}
+
+\paragraph{Schedule}
+
+\begin{center}[h]
+  \includegraphics[width=\linewidth]{assets/Schedule.png}
+  \label{fig:schedule}
+\end{center}
+
+\paragraph{Design Space Exploration}
+
+\paragraph{Pareto Analysis}
+% \begin{center}
+%   \includegraphics[width=0.8\linewidth]{assets/ParetoTutorial.png}
+%   \label{fig:paretotutorial}
+% \end{center}
+
+\begin{center}
+  \centering
+  \includegraphics[width=\linewidth]{assets/ParetoSlide.png}
+  \label{fig:paretoslide}
+\end{center}
+
+\paragraph{Partitioning Methods}
+
+\paragraph{ILP}
+
+\paragraph{Heuristic Methods}
+A technique designed for solving a problem more quickly when classic methods are too slow, or for finding an approximate solution when classic methods fail to find any exact solution. This is achieved by trading optimality, completeness, or precision for speed.
+
+\textbf{Closeness}: Measure derived from multiple metrics indicating a force to group two functional objects during a partitioning process
+
+\paragraph{Constructive Methods}
+\begin{enumerate}
+  \item Random grouping
+    \begin{enumerate}
+      \item Tasks are randomly mapped to resources in sequential fashion
+      \item  Indepent of closeness values
+      \item Method of complexity O(n)
+    \end{enumerate}
+
+  \item Hierarchical Clustering
+    \begin{enumerate}
+      \item (Functional) object / task is assigned to a group
+      \item Closeness is criterion for assignment
+      \item Subsequent recalculation of closeness functions
+      \item Iteration of above steps till termination condition is fulfilled
+    \end{enumerate}
+\end{enumerate}
+
+\paragraph{Hierarchical Clustering}
+
+\begin{center}
+  \centering
+  \includegraphics[width=0.8\linewidth]{assets/HierarchicalClustering.png}
+  \label{fig:hierarchicalclustering}
+\end{center}
+
+\textbf{Termination Criteria}
+\begin{enumerate}
+	\item Number of remaining clusters / groups
+	\item Getting below a certain closeness boundary (e.g. $\leq$ 15)
+\end{enumerate}
+
+\textbf{Characteristics}
+\begin{enumerate}
+	\item $O(n^2)$: Still applicable to sets with large number of objects
+	\item Based on concept of local optimization; cannot overcome local minima
+	\item Frequently used to obtain an initial partition with subsequent iterative improvements
+\end{enumerate}
+
+\paragraph{Group Migration – Min Cut}
+\begin{enumerate}
+  \item Move individual objects to different groups and determine the resulting deltas in the target function
+  \item Object with biggest reduction / smallest increase in target function is moved to new group
+  \item Every object can be moved only once
+  \item When all objects have been moved once, select partition with best target function
+\end{enumerate}
+
+$\Delta = connection_{samePartition} - connection_{newPartition}$ 
+
+\textit{Watch out that all connections to same / other partition are considered!}
+
+\begin{center}
+  \includegraphics[width=0.8\linewidth]{assets/MinCut.png}
+  \label{fig:mincut}
+\end{center}
+
+\textbf{Rate Cut method} Prevent clustering of all objects into a single group
+
+$Ratio = \frac{cut(P)}{size(p_1) \cdot size(p_2)}$
+
+\paragraph{Simulated Annealing}
+Idea is inspired by annealing process of melted mass
+
+Simulated degradation of temperature T such that a thermal equilibrium is attained for each T
+
+Applied to partitioning problem
+\begin{enumerate}
+	\item  Method of statistical iterative improvement 
+	\item Acceptance of inferior partitions depends on :
+	  \begin{enumerate}
+	  	\item The absolute cost delta
+		\item The runtime of the method
+	  \end{enumerate}
+\end{enumerate}
+
+\begin{center}
+  \includegraphics[width=0.8\linewidth]{assets/SimulatedAnnealing.png}
+  \label{fig:simulatedannealing}
+\end{center}
+
+\paragraph{Greedy Partitioning}
+Starting from a pure SW partition objects are moved into HW partition until performance requirements are met
+$P_{init} = \{ p_{sw}, p_{hw} \} = \{ O, \O \}$
+
+\paragraph{Grupta Partitioning}
+Starting from a pure HW partition, objects are moved to SW partition as long as performance requirements are still met and target function is improved
+$P_{init} = \{ p_{sw}, p_{hw} \} = \{ \O, O \}$
+
+\paragraph{Tabu Search}
+
+\begin{center}
+  \centering
+  \includegraphics[width=\linewidth]{assets/TabuSearch.png}
+  \label{fig:tabusearch}
+\end{center}
+
+\begin{center}
+  \centering
+  \includegraphics[width=\linewidth]{assets/TabuExample.png}
+  \label{fig:tabuexample}
+\end{center}
+
+\paragraph{Genetic Algorithms}
+
+\begin{center}
+  \centering
+  \includegraphics[width=\linewidth]{assets/GeneticAlgortihm.png}
+  \label{fig:geneticalgortihm}
+\end{center}
+
+\begin{center}
+  \centering
+  \includegraphics[width=0.8\linewidth]{assets/GeneticOperators.png}
+  \label{fig:geneticoperators}
+\end{center}
+
+\begin{center}
+  \centering
+  \includegraphics[width=0.8\linewidth]{assets/GeneticSelection.png}
+  \label{fig:geneticselection}
+\end{center}
+
+\begin{center}
+  \centering
+  \includegraphics[width=0.8\linewidth]{assets/GeneticCharacteristics.png}
+  \label{fig:geneticcharacteristics}
+\end{center}
 
 \section{Scheduling}
+Determines the execution sequence and start times of tasks/jobs on processors under consideration of task priorities, task deadlines and data dependencies in the task/problem graph
 \section{Estimation}
 
 
