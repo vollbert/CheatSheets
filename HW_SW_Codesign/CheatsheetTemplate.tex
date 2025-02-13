@@ -259,6 +259,9 @@
 \textbf{Properties KPN} No matter what the execution speed or schedule of the processes is, the KPN will always give the same result -$>$ Independent of timing -$>$ deterministic
 
 \subsection{Synchronous Dataflow (SDF)}
+SDF models can be used to define bounded schedules of execution. The maximum amount of
+tokens needed to be held in a single communication channel can be determined through the
+schedule.
 
 \begin{center}
   \includegraphics[width=\linewidth]{assets/SDFExample.png}
@@ -378,11 +381,18 @@ Combined process of Implementation, Refinement(and Optimization)
 
 \paragraph{Partitioning Problem}
 
-\begin{center}[H]
+\begin{center}
   \centering
   \includegraphics[width=\linewidth]{assets/PartitioningProblem.png}
   \label{fig:partitioningproblem}
 \end{center}
+
+\textbf{Complexity of partitioning problem}
+\begin{enumerate}
+	\item m: architecture components
+	\item n: task objects
+	\item $O(m^n)$
+\end{enumerate}
 
 \paragraph{Schedule}
 
@@ -544,8 +554,216 @@ $P_{init} = \{ p_{sw}, p_{hw} \} = \{ \O, O \}$
 
 \section{Scheduling}
 Determines the execution sequence and start times of tasks/jobs on processors under consideration of task priorities, task deadlines and data dependencies in the task/problem graph
-\section{Estimation}
 
+\textbf{Scheduling without resource constrains}: (Theoretically) relevant to determine the lower bound of (processing)
+
+\textbf{Scheduling with resource constraints}: Consider availability of limited processing resources during scheduling
+
+\textbf{Periodic scheduling}: Scheduling of iterative tasks / processes with execution interval (period) T, relative deadline $t_d$ and priority
+
+\textbf{Sporatic sceduling}: Schedule sporatic occuring tasks with bounded rate and lower-bound inter arrival rate, but possibly assigned priority and deadline
+latency
+
+
+\begin{center}
+  \centering
+  \includegraphics[width=\linewidth]{assets/RealTimeParameters.png}
+  \label{fig:realtimeparameters}
+\end{center}
+
+\begin{center}
+  \centering
+  \includegraphics[width=\linewidth]{assets/RealTimeParameters2.png}
+  \label{fig:realtimeparameters2}
+\end{center}
+
+\begin{center}
+  \centering
+  \includegraphics[width=\linewidth]{assets/SchedulingTimingMetrics.png}
+  \label{fig:schedulingtimingmetrics}
+\end{center}
+
+\paragraph{Optimization Targets}
+
+\begin{center}
+  \centering
+  \includegraphics[width=\linewidth]{assets/OptimizationTargets.png}
+  \label{fig:optimizationtargets}
+\end{center}
+
+
+\subsection{Dynamic Scheduling}
+
+\textbf{preemptive}: Ability to preempt jobs or assign jobs after preemption to different processor resources creates “degrees of freedom” to achieve a feasible or improved schedule
+
+\paragraph{Round robin (RR)}
+
+\begin{center}
+  \centering
+  \includegraphics[width=\linewidth]{assets/RoundRobin.png}
+  \label{fig:roundrobin}
+\end{center}
+
+
+\paragraph{First come first served}
+\begin{center}
+  \centering
+  \includegraphics[width=\linewidth]{assets/FistComeFirstServed.png}
+  \label{fig:fistcomefirstserved}
+\end{center}
+ 
+\paragraph{Shortest job first (SJF)}
+
+\paragraph{Rate Monotonic Scheduling (RMS)}
+
+\begin{center}
+  \centering
+  \includegraphics[width=\linewidth]{assets/RateMonotonicScheduling.png}
+  \label{fig:ratemonotonicscheduling}
+\end{center}
+
+\textbf{Hyper Period} $H = lcm_i(T_i)$
+
+\paragraph{Earliest Deadline First}
+
+\paragraph{Least Laxity (LL)}
+
+\paragraph{As soon as possible (ASAP)}
+No resource constrains!
+
+\paragraph{As Late As Possible (ALAP)}
+\textbf{mobility}: Indicates a start time window of a job to still satisfy $t_D^L$ 
+
+Jobs $v_i$ with lowest mobility $\mu$ are in critical path(s) of G(V, E)
+
+$\mu(v_i) = s_{v_i}^{ALAP} - s_{v_i}^{ASAP}$
+
+\paragraph{ASAP/ALAP with Conditional Task Shift}
+Starting point is an ASAP/ALAP schedule
+
+Check if schedule obeys resource constrain $\alpha(cpu) = 2; \alpha(acc) = 2$ 
+
+In case of resource constraint violation, tasks with positive mobility are shifted to later(ASAP) / earlier (ALAP time slot)
+
+\paragraph{List Scheduling} 
+
+
+\begin{center}
+  \includegraphics[width=0.8\linewidth]{assets/ListSchedulingExample.png}
+  \label{fig:listschedulingexample}
+\end{center}
+
+\begin{center}
+  \centering
+  \includegraphics[width=0.8\linewidth]{assets/ListSchedulingTut.png}
+  \label{fig:listschedulingtut}
+\end{center}
+
+\section{Design Estimation Techniques}
+
+\textbf{Motivation}: Design parameter estimation allows to bound
+relevant system aspects prior to system implementation
+
+\paragraph{Estimation Metrics}
+
+\begin{center}
+  \includegraphics[width=0.8\linewidth]{assets/EstimationMetrics.png}
+  \label{fig:estimationmetrics}
+\end{center}
+
+\paragraph{Trade off: Accuracy / Effort}
+
+
+\paragraph{Accuracy / Fidelity - Definitions}
+\begin{center}
+  \includegraphics[width=\linewidth]{assets/AccuracyFidelityDefinitions.png}
+  \label{fig:accuracyfidelitydefinitions}
+\end{center}
+
+For design space exploration choose fidelity over accuracy since the trend is more important than accurate measurement.
+
+\paragraph{Hardware Cost Metrics}
+\begin{enumerate}
+	\item Manufacturing Cost
+	\item Module Cost
+	\item Test Cost
+	\item Development Cost
+\end{enumerate}
+
+\paragraph{Hardware Performance Metrics}
+Compute performance, Communication Bandwith
+\begin{enumerate}
+  \item Clock rate T
+  \item Control Steps N
+  \item Processing time/Latency $T_{ex} / L$
+  \item Throughput R
+\end{enumerate}
+ 
+\paragraph{Software Cost Metrics}
+
+\paragraph{Software Performance Metrics}
+\begin{enumerate}
+	\item MIPS (million instructions per second)
+	\item Memory
+	  \begin{enumerate}
+	  	\item Access latency to different memory technologies in memory hierarchy
+	  \end{enumerate}
+\end{enumerate}
+
+\paragraph{Communication Metrics}
+\begin{enumerate}
+	\item Maximum bit rate: PeakRate(C)
+	\item Average bit rate: AvgRate(C)
+\end{enumerate}
+
+\paragraph{Other Metrics}
+\begin{enumerate}
+	\item Power dissipation
+	\item Design-for-Test
+	\item Development Time
+	\item Time-to-market
+\end{enumerate}
+
+\paragraph{Hardware Estimation: FSMD Model}
+Finite-State-Machine + Data Path
+
+\paragraph{Clock Rate Estimation: Control Path}
+$T_{clk} > \sum T_{logic} + T_{setup} + T_{pd}$
+Logic depth (number of logic gates between registers) and wiring latencies determine FSM clock rate.
+
+\paragraph{Maximum Operator Latency}
+$T_{clk} = max_k(delay(r_k))$
+
+\paragraph{Clock Rate Utilization: Slack}
+
+\begin{center}
+  \includegraphics[width=\linewidth]{assets/Slack.png}
+  \label{fig:slack}
+\end{center}
+
+\paragraph{Pipelining}
+
+\paragraph{Generic Model}
+Estimate independent of CPU Model.
+
+\textbf{Worst Case Execution Time (WCET)}
+Hard real time requirements have to be met.
+
+\paragraph{Program Exeution Time $T_{ex}$}
+$T_{ex} = \frac{Instructions}{Program} \frac{clockCycles}{Instructions} \frac{seconds}{clockCycle)}$
+
+\paragraph{Instruction Count Estimation with DFG / CFG}
+
+\begin{center}
+  \includegraphics[width=\linewidth]{assets/InstructionCountEstDFG.png}
+  \label{fig:instructioncountestdfg}
+\end{center}
+
+
+\begin{center}
+  \includegraphics[width=\linewidth]{assets/ICECFG.png}
+  \label{fig:icecfg}
+\end{center}
 
 
 % ======================================================================
