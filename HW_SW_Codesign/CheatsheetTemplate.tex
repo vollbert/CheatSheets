@@ -34,6 +34,10 @@
 % ----------------------------------------------------------------------
 \section{Introduction}
 
+\textbf{Moores Law}: Continued doubling of chip capacity every 2-3 years.
+
+\textbf{Platform based SoC Design}: Conquer design complexity by reuse maximization: Shorter development cycles, higher chances for fault free design and competitive value differentiation. (High Abstraction)
+
 \paragraph{Requirements for HW/SW Systems}
 \begin{enumerate}
 	\item Reliability
@@ -107,6 +111,8 @@
 \end{center}
 
 \textbf{Abstraction} Design flaws or errors resulting from imprecise modeling or insufficient exploration require abstraction and reiteration of design flow at next higher layer
+
+Abstraction is possible in a top-down design strategy because it involves starting with a high-level, abstract view of the system and progressively refining it into detailed components.
  
 \paragraph{Bottom Up Design}
 
@@ -128,8 +134,9 @@
  
 \paragraph{Simualtion Acceleration}
 \begin{enumerate}
-	\item Divide and Conquer: parallel simulation
-	\item Mixed-Level Simulation
+	\item Divide and Conquer: parallel simulation - !validation of non parralelizable processes
+	\item Mixed-Level Simulation - Some components simulation less accurate
+	\item Reduction of Simulation Coverage - !Corner cases missed
 \end{enumerate}
  
 \paragraph{Design Views}
@@ -198,6 +205,16 @@
   \includegraphics[width=0.8\linewidth]{assets/FiniteStateMachine.png}
   \label{fig:finitestatemachine}
 \end{center}
+
+
+\begin{center}
+  \includegraphics[width=0.8\linewidth]{assets/FSMTut.png}
+  \label{fig:fsmtut}
+\end{center}
+
+\textit{Concurrency} is captured either by running multiple FSMs in parallel or by merging them into one large FSM whose states represent the combination of each sub-FSM’s states.
+
+\textit{Synchronization} is captured through shared events, shared variables, or guard conditions that coordinate transitions among these concurrent machines.
 
 \paragraph{Control Flow Graph}
 
@@ -278,6 +295,9 @@ schedule.
 \paragraph{Data Oriented Model}
 
 \paragraph{Concurrency}
+It is often simpler and more concise to portray the behavior of a system as a set of multiple concurrent sub-behaviors
+
+Concurrency generally refers to the ability of a system to handle multiple tasks (or parts of tasks) at overlapping time periods, rather than doing them strictly one after another.
 
 \paragraph{Hierarchy}
 
@@ -303,8 +323,9 @@ schedule.
 	\item  Channels can be unidirectional or bidirectional, using a point to point or shared (addressed) bus infrastructure
     \end{enumerate}
 
-    \textbf{Blocking transfer} the sending process waits until the receiving process has accepted (or is ready to provide) the data (requires synchronization of the processes prior to the transfer)
-    \textbf{non-blocking transfer} the sending process writes the data into a queue and immediately continues processing. The receiving process can then read the data from the queue at its leisure. This allows the sending and receivingprocesses to work independently, but requires additional memory (queues).
+    \textbf{Blocking transfer} the sending process waits until the receiving process has accepted (or is ready to provide) the data (requires synchronization of the processes prior to the transfer, and can have potential deadlocks)
+
+    \textbf{non-blocking transfer} the sending process writes the data into a queue and immediately continues processing. The receiving process can then read the data from the queue at its leisure. This allows the sending and receivingprocesses to work independently, but requires additional memory (queues). (unbounded)
 \end{enumerate}
 
 \paragraph{Synchronization}
@@ -392,6 +413,7 @@ Combined process of Implementation, Refinement(and Optimization)
 	\item m: architecture components
 	\item n: task objects
 	\item $O(m^n)$
+	\item $nPartitions = \prod_i m_i^{n_i}$
 \end{enumerate}
 
 \paragraph{Schedule}
@@ -485,9 +507,14 @@ $\Delta = connection_{samePartition} - connection_{newPartition}$
 $Ratio = \frac{cut(P)}{size(p_1) \cdot size(p_2)}$
 
 \paragraph{Simulated Annealing}
-Idea is inspired by annealing process of melted mass
+\begin{enumerate}
+	\item Idea is inspired by annealing process of melted mass
+	\item Simulated degradation of temperature T such that a thermal equilibrium is attained for each T
+	\item The bigger the cost delta and the runtime, the lower is the probability to accept an inferior partition
+	\item optimal method when temperature degradation happens arbitrarily slowly
+	\item Computational complexity of the method depends on actual implementation and can vary between exponential and polynomial
+\end{enumerate}
 
-Simulated degradation of temperature T such that a thermal equilibrium is attained for each T
 
 Applied to partitioning problem
 \begin{enumerate}
@@ -555,7 +582,19 @@ $P_{init} = \{ p_{sw}, p_{hw} \} = \{ \O, O \}$
 \section{Scheduling}
 Determines the execution sequence and start times of tasks/jobs on processors under consideration of task priorities, task deadlines and data dependencies in the task/problem graph
 
+\textbf{Static / off-line scheduling}: Determines the execution sequence and
+start times of jobs at design or compilation time
+
 \textbf{Scheduling without resource constrains}: (Theoretically) relevant to determine the lower bound of (processing)
+
+\textbf{Preemptive scheduling}: Possibility to interrupt execution of a
+task/process during run time (to the benefit of another task/process) and
+resume execution on same or different resource
+
+\textbf{Dynamic / on-Line scheduling}: Determines the execution sequence and
+start times of jobs at run time
+
+Dynamic methods are more flexible and may lead to better processor utilization. Correct system behavior of static methods are way easier to guarantee.
 
 \textbf{Scheduling with resource constraints}: Consider availability of limited processing resources during scheduling
 
@@ -626,6 +665,9 @@ latency
 
 \paragraph{Earliest Deadline First}
 
+\paragraph{Shortest remaining time next (SRTN)}
+preemptive
+
 \paragraph{Least Laxity (LL)}
 
 \paragraph{As soon as possible (ASAP)}
@@ -680,7 +722,7 @@ relevant system aspects prior to system implementation
   \label{fig:accuracyfidelitydefinitions}
 \end{center}
 
-For design space exploration choose fidelity over accuracy since the trend is more important than accurate measurement.
+For design space exploration choose fidelity over accuracy since the trend is more important than accurate measurement. If trend is corretct, ulitmately the best design point will be chosen anyway.
 
 \paragraph{Hardware Cost Metrics}
 \begin{enumerate}
@@ -764,7 +806,6 @@ $T_{ex} = \frac{Instructions}{Program} \frac{clockCycles}{Instructions} \frac{se
   \includegraphics[width=\linewidth]{assets/ICECFG.png}
   \label{fig:icecfg}
 \end{center}
-
 
 % ======================================================================
 % End
