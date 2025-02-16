@@ -95,6 +95,11 @@ $t_{pHL} \varpropto \frac{L_p}{W_p \mu}$
 
 
 \subsection{Finite State Machines}
+
+\textbf{Moore Machine} Output Z only dependent on current state $S_i$
+
+\textbf{Mealy Machine} Output Z dependent on current state $S_i$ and input A
+
 \begin{center}
 	\includegraphics[width = 5cm]{images/2. SoC Logic Design Recap/FSM.png}
 \end{center}
@@ -122,6 +127,13 @@ $t_{pHL} \varpropto \frac{L_p}{W_p \mu}$
 \textbf{Computational density} (CD) is defined as computations per unit area and time.
 $CD = \frac{computational\_power}{area}$ where $area = \frac{siliconarea [nm^2]}{\lambda^2 [\mu m^2]}$ and $computational\_power = Data size * IPC * frequency$
 
+\begin{enumerate}
+	\item CPU: 40 - 80
+	\item FPGA: 400
+	\item Asic 4000
+	\item Custom  $>$ 10000
+\end{enumerate}
+
 The actual computational power is lower because of Memory Latency, Pipeline Stalls, Cache Misses, Instruction Dependencies, Branch Prediction Failures
 
 For FPGAs and Asics we have a standard activity factor $\alpha$ of 0.2 and 0.1 since not every LUT/logic is used for every clock cycle. (Multiply computational power by nLUTs for MAX CD)
@@ -129,7 +141,14 @@ For FPGAs and Asics we have a standard activity factor $\alpha$ of 0.2 and 0.1 s
 $[CD] = \frac{ops}{N [L_{min}^2 tiles]} = \frac{1 operation}{s \cdot sq}
 	= \frac{1M operations}{1s \cdot mm^2 / \mu m^2}$
 
-\textbf{Functional Diversity} (FD) can either be interpreted as the number of instructions per compute element which are stored local to the compute unit, or as an empiric metric to express the flexibility of a specific implementation technique.
+\textbf{Functional Diversity} (FD) Number of functions resident and rapidly accessible by a compute unit
+
+\begin{enumerate}
+	\item CPU: 256K - 16K
+	\item FPGA: 1
+	\item Asic $10^{-3}  - 10^{-6}$
+	\item Custom  $\approx$ 0
+\end{enumerate}
 
 \textbf{Software vs. Hardware Implementation}The fundamental difference between HW and SW implementation is the degree of parallelism that can be achieved during the execution of the target functionality. Parallel in space, sequential in time vs parallel in space and time
 
@@ -148,6 +167,13 @@ Programmable Array Logic (PAL) and Programmable Logic Array (PLA). PAL is compos
 
 \textbf{FPGA}
 The basic ingredients of an FPGA are configurable logic blocks (CLBs), configurable routing resources and I/O pads. Each CLB contains multiple look-up tables which are configured by the program data.
+
+\begin{center}
+  \includegraphics[width=\linewidth]{assets/FPGARealization.png}
+  \label{fig:fpgarealization}
+\end{center}
+
+The content of the lookup table is the result y and the address is equivalent to the input x1 \& x2 \& x3.
 
 \textbf{single vs. multicore}:
 $P_{dyn} = f V_{dd}^2 N $\quad N: number cores
@@ -231,7 +257,7 @@ $CPI_{mem} = CPI_{inst} + CPI_{data}
 \textbf{Cache Organization}
 
 \begin{center}
-	\includegraphics[width = 6cm]{images/4.ProcessorArchitecture/cache.png}
+	\includegraphics[width = \linewidth]{images/4.ProcessorArchitecture/cache.png}
 \end{center}
 
 $\#cache\_lines = \frac{cache\_size}{line\_size \cdot \#of\_ways}$
@@ -252,6 +278,11 @@ Can improve performance whe the processor frequently accesses different memory a
 If all entries are occupied by an entry now, one of them needs to be evicted. The decision on which entry to replace is defined by a replacement policy that is optimized in a way that the number of misses is reduced.
 
 \textbf{Cache Write Strategies}
+
+\begin{center}
+  \includegraphics[width=\linewidth]{assets/CacheWriteStrategies.png}
+  \label{fig:cachewritestrategies}
+\end{center}
 
 \textbf{Multithreading in Software}
 
@@ -343,20 +374,20 @@ $rate = \frac{bytes * f}{nCycles}$
 
 \textbf{On-Chip Buses}
 \begin{center}
-	\includegraphics[width=0.8\linewidth]{images//6.Interconnects/OnChipBasicOperation.png}
+	\includegraphics[width=\linewidth]{images//6.Interconnects/OnChipBasicOperation.png}
 \end{center}
 Bus throughput depends on \textbf{Bus width} and \textbf{Bus CLK rate}
 
 \paragraph{Bus Arbitration Schemes} Determine sequence in which requests from multiple masters are serviced
 \begin{figure}
 	\centering
-	\includegraphics[width=1\linewidth]{images//6.Interconnects/BusArbitrationSchemes.png}
+	\includegraphics[width=\linewidth]{images//6.Interconnects/BusArbitrationSchemes.png}
 \end{figure}
 
 \paragraph{PLB(Processor Local Bus)}
 
 \begin{center}
-	\includegraphics[width=0.75\linewidth]{images//6.Interconnects/PLBTiming.png}
+	\includegraphics[width=\linewidth]{images//6.Interconnects/PLBTiming.png}
 \end{center}
 
 \paragraph{Bus Imporovements}
@@ -429,6 +460,21 @@ transfers.
 \textit{Drawbacks}
 \begin{enumerate}
 	\item Latency
+\end{enumerate}
+
+\section{Questions}
+
+\begin{enumerate}
+	\item The functionality of programmable logic inside the FPGA can be modified after chip fabrication
+	\item In a write through cache policy, a dirty flag is not required to mark the changed line
+	\item For loops, a two-bit branch predictor performs worse than a one-bit predictor in the first iteration
+
+\end{enumerate}
+
+\section{to do}
+\begin{enumerate}
+	\item in a system bus how can i detect the difference between read write
+	\item add cpi formula
 \end{enumerate}
 
 
