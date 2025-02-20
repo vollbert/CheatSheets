@@ -42,7 +42,9 @@ $t_{pHL} \varpropto \frac{C_{load} t_{ox} L_p}{W_p \mu_p \epsilon_{Ox} (V_{DD} -
 $t_{pHL} \varpropto \frac{L_p}{W_p \mu}$
 
 \subsection{CMOS Power}
-\textbf{Dynamic Capacitive Power}: $P_{cap} = \alpha_{01} f C V_{dd}^2$
+\textbf{Dynamic Capacitive Power}: $P_{cap} = \alpha_{01} f C V_{dd}^2 \cdot cores$
+
+\textbf{Multi vs single core} $\frac{P_{capM}}{P_{capS}} = \frac{f_M}{f_S} (\frac{V_{ddM}}{V_{ddS}})^2$
 
 \textbf{Short Circuit Power}: $P_{short} = \alpha_{01} f \beta_n \tau (V_{dd} - 2 V_{tn})^3$
 
@@ -245,7 +247,7 @@ Execute after Execute instructions and after Memory Access for load instructions
 
 \textbf{ILP: VLIW processors} scheduled during compile time
 
-\textbf{Processor Performance} $CPU_{time} = \frac{Inst}{Prog} \frac{clk\_cyc}{Inst} \frac{Seconds}{clk\_cyc}$
+\textbf{Processor Performance} $CPU_{time} = \frac{\#Instr \cdot CPI}{f_{clk}}$
 
 CPI: Cycles per Instruction
 
@@ -262,7 +264,9 @@ $CPI_{mem} = CPI_{inst} + CPI_{data}
 
 $\#cache\_lines = \frac{cache\_size}{line\_size \cdot \#of\_ways}$
 
-$Index = log_2(\#cache lines)$
+\textbf{sets}: $\#sets = cacheLines \cdot \#ways$
+
+$Index = log_2(\#sets)$
 
 $Offset = log_2(Cache line size)$
 
@@ -373,6 +377,13 @@ $rate = \frac{bytes * f}{nCycles}$
 \section{Interconnect}
 
 \textbf{On-Chip Buses}
+
+\textbf{Write} Addr \& data in the same clock cycle
+
+\textbf{Burst} One Addr request -$>$ several write data
+
+\textbf{Pipelined} New request before completing previous transmission
+
 \begin{center}
 	\includegraphics[width=\linewidth]{images//6.Interconnects/OnChipBasicOperation.png}
 \end{center}

@@ -38,6 +38,10 @@
 
 \textbf{Platform based SoC Design}: Conquer design complexity by reuse maximization: Shorter development cycles, higher chances for fault free design and competitive value differentiation. (High Abstraction)
 
+\textbf{Computational Density} use $L_{min}^2$ (minimum feature size as area reference for cd) $CD = \frac{ops}{N L_{min}^2}$
+
+\textbf{Improvements in Designer Productivity} Increased level of abstraction + progress in EDA tools
+
 \paragraph{Requirements for HW/SW Systems}
 \begin{enumerate}
 	\item Reliability
@@ -48,6 +52,8 @@
 	\item Real-time capability
 	\item Flexibility
 \end{enumerate}
+
+\textbf{HW SW Design objective} reduce cost, shorter development cycle, lower processing latency, higher system throughput
 
 \paragraph{Reliability}
 
@@ -90,6 +96,8 @@
   \includegraphics[width=0.8\linewidth]{assets/AbstractionLevels.png}
 \end{center}
 
+\textbf{Model} Abstraction vs Granularity / \textbf{Simulation} Accuracy vs Speed
+
 
 \section{Methodology}
 
@@ -97,18 +105,19 @@
 
 \textbf{Design Flow}: Sequence of individual steps of the design process
 
-\textbf{Top-Down Design}
+\paragraph{Specification, Exploration, Refinement}
 \begin{enumerate}
 		\item \textbf{Specification} of the functional behavior
 		\item \textbf{Exploration} of alternative realizations within the design space
 		\item \textbf{Refinement} of the most promising realization towards the next lower abstraction level
 \end{enumerate}
 
-\paragraph{Specification, Exploration, Refinement}
 
+\textbf{Top-Down Design}
 \begin{center}
   \includegraphics[width=0.8\linewidth]{assets/SpecExRef.png}
 \end{center}
+Higher efficiency in design representation/specification. Oversees a much bigger implementation space.
 
 \textbf{Abstraction} Design flaws or errors resulting from imprecise modeling or insufficient exploration require abstraction and reiteration of design flow at next higher layer
 
@@ -134,9 +143,9 @@ Abstraction is possible in a top-down design strategy because it involves starti
  
 \paragraph{Simualtion Acceleration}
 \begin{enumerate}
-	\item Divide and Conquer: parallel simulation - !validation of non parralelizable processes
-	\item Mixed-Level Simulation - Some components simulation less accurate
-	\item Reduction of Simulation Coverage - !Corner cases missed
+  \item \textbf{Divide and Conquer}: parallel simulation - !validation of non parralelizable processes
+  \item \textbf{Mixed-Level Simulation} - Some components simulation less accurate
+\item \textbf{Reduction of Simulation Coverage} - !Corner cases missed
 \end{enumerate}
  
 \paragraph{Design Views}
@@ -189,7 +198,11 @@ Abstraction is possible in a top-down design strategy because it involves starti
 	\item constrains / properties (latency, power dissipation...)
 \end{enumerate}
 
-\textbf{Virtual Prototoypes} Alllow for HW and SW components of a system to be developed in parallel.
+\textbf{System Models} are generated from the system specification. They descrive how a system functions. (behavior)
+
+\textbf{Architectures} describee how the sytem is implemented. (structure)
+
+\textbf{Virtual Prototoypes} Alllow for HW and SW components of a system to be developed in parallel. Cycle accurate HW model which SW can use while HW is implemented.
 
 \paragraph{Models of Computation}
 
@@ -198,15 +211,17 @@ Abstraction is possible in a top-down design strategy because it involves starti
 \end{center}
 
 \subsection{State-Oriented Models}
+Suited for demonstrating the timing of a system. timing (latency) ist he most important aspect to be modeled (control units)
 
 \paragraph{Finite State Machine}
 
-\begin{center}[h]
+\begin{center}
   \includegraphics[width=0.8\linewidth]{assets/FiniteStateMachine.png}
   \label{fig:finitestatemachine}
 \end{center}
 
-
+\paragraph{Hierarchical Concurrent FSM}
+Communication with shared variable
 \begin{center}
   \includegraphics[width=0.8\linewidth]{assets/FSMTut.png}
   \label{fig:fsmtut}
@@ -224,6 +239,7 @@ Abstraction is possible in a top-down design strategy because it involves starti
 \end{center}
 
 \subsection{Activity Oriented Model}
+best suited for describing transformational systems in which data is passed through a transfer function at fixed rate.
 
 \paragraph{Data Flow Graph}
  
@@ -254,9 +270,10 @@ Abstraction is possible in a top-down design strategy because it involves starti
 \end{enumerate}
 
 \begin{center}
-  \includegraphics[width=0.8\linewidth]{assets/KPNDataExample.png}
-  \label{fig:kpndataexample}
+  \includegraphics[width=\linewidth]{assets/DDSExample.png}
+  \label{fig:ddsexample}
 \end{center}
+non-terminating, unbounded, complete
 
 \textbf{Parks' Algorithm}: finds a schedule with bounded buffers if one exists
 \begin{enumerate}
@@ -269,9 +286,10 @@ Abstraction is possible in a top-down design strategy because it involves starti
 \end{enumerate}
 
 \begin{center}
-  \includegraphics[width=0.8\linewidth]{assets/KPNExamplePark.png}
+  \includegraphics[width=\linewidth]{assets/KPNExamplePark.png}
   \label{fig:kpnexamplepark}
 \end{center}
+
  
 \textbf{Properties KPN} No matter what the execution speed or schedule of the processes is, the KPN will always give the same result -$>$ Independent of timing -$>$ deterministic
 
@@ -284,28 +302,31 @@ schedule.
   \includegraphics[width=\linewidth]{assets/SDFExample.png}
   \label{fig:sdfexample}
 \end{center}
- 
+
+
 \begin{center}
   \includegraphics[width=\linewidth]{assets/SDFExample2.png}
   \label{fig:sdfexample2}
 \end{center}
 
-\paragraph{Structure Oriented Model}
+\paragraph{Structure Oriented Model} Structure oriented models (e.g. block diagram CCD) describe a system as a set of physical components/modules and their interconnects.
 
-\paragraph{Data Oriented Model}
+\paragraph{Data Oriented Model} Data oriented models describe a system as a hierarchy of data structures, attributes, or class inheritance. Data oriented models are best suited for describing systems in which the structural representation of data is more important than the system’s functionality (e.g. databases)
 
 \paragraph{Concurrency}
 It is often simpler and more concise to portray the behavior of a system as a set of multiple concurrent sub-behaviors
 
 Concurrency generally refers to the ability of a system to handle multiple tasks (or parts of tasks) at overlapping time periods, rather than doing them strictly one after another.
 
-\paragraph{Hierarchy}
+Control oriented concurrency: Explicit control instructions determine the order of operations.
 
-\paragraph{Structural-/Behavioral-Hierarchy}
+\paragraph{Hierarchy} helps mastering system complexity
+
+\paragraph{Structural-/Behavioral-Hierarchy} Used to divide one function (behavior) into multiple sub-functions, which can be either sequential or concurrent
 
 \paragraph{Program Structures/Constructs}
 
-\paragraph{Completion}
+\paragraph{Completion} process ability to indicate that it has completed, or the ability of other processes to notice its completion
 
 \paragraph{Communication}
 \begin{enumerate}
@@ -323,7 +344,7 @@ Concurrency generally refers to the ability of a system to handle multiple tasks
 	\item  Channels can be unidirectional or bidirectional, using a point to point or shared (addressed) bus infrastructure
     \end{enumerate}
 
-    \textbf{Blocking transfer} the sending process waits until the receiving process has accepted (or is ready to provide) the data (requires synchronization of the processes prior to the transfer, and can have potential deadlocks)
+    \textbf{Blocking transfer} the sending process waits until the receiving process has accepted (or is ready to provide) the data (synchronization), and can have potential deadlocks
 
     \textbf{non-blocking transfer} the sending process writes the data into a queue and immediately continues processing. The receiving process can then read the data from the queue at its leisure. This allows the sending and receivingprocesses to work independently, but requires additional memory (queues). (unbounded)
 \end{enumerate}
@@ -344,7 +365,7 @@ Concurrency generally refers to the ability of a system to handle multiple tasks
     \end{enumerate}
 \end{enumerate}
  
-\paragraph{Exception Handling} Certain events, such as a reset or CPU interrupt, can necessitate the abrupt termination of a process
+\paragraph{Exception Handling} Certain events, such as a reset or CPU interrupt, can necessitate the abrupt suspension of a process
 
 \paragraph{Non-Determinism} Occasionally it may be unclear which of several state transitions or
 sequences of operations are best suited for the application at hand
@@ -372,7 +393,7 @@ Combined process of Implementation, Refinement(and Optimization)
       \item  I/O interfaces and
       \item interconnect structures
     \end{enumerate}
-  \item Mapping: Assignment of entire sub-systems / tasks of the system model to HW / SW resources (HW/SW-Codesign)
+  \item \textbf{Mapping}: Assignment of entire sub-systems / tasks of the system model to HW / SW resources (HW/SW-Codesign)
     \begin{enumerate}
       \item Scheduling: Determine the
       \item execution sequence of tasks and communication transactions between different resources
@@ -394,9 +415,9 @@ Combined process of Implementation, Refinement(and Optimization)
   \label{fig:resourcegraph}
 \end{center}
 
-\paragraph{Architecture Graph}
+\paragraph{Architecture Graph} Graph of system with different resources and bus
 
-\paragraph{Allocation} Allocation is a function $\alpha$ ..
+\paragraph{Allocation} Allocation is a function $\alpha$ that assigns each resurce a number $\alpha(r_k)$ of available resource instances 
 
 \paragraph{Mapping}
 
@@ -439,7 +460,7 @@ Combined process of Implementation, Refinement(and Optimization)
 
 \paragraph{Partitioning Methods}
 
-\paragraph{ILP}
+\paragraph{ILP} An integer linear programming problem is a mathematical optimization or feasibility program in which the objective function and the constraints (other than the integer constraints) are linear.
 
 \paragraph{Heuristic Methods}
 A technique designed for solving a problem more quickly when classic methods are too slow, or for finding an approximate solution when classic methods fail to find any exact solution. This is achieved by trading optimality, completeness, or precision for speed.
@@ -478,6 +499,8 @@ A technique designed for solving a problem more quickly when classic methods are
 	\item Getting below a certain closeness boundary (e.g. $\leq$ 15)
 \end{enumerate}
 
+\textbf{Cost function} dependent on execution time, latency, communication transactions, power dissipation etc.
+
 \textbf{Characteristics}
 \begin{enumerate}
 	\item $O(n^2)$: Still applicable to sets with large number of objects
@@ -485,6 +508,7 @@ A technique designed for solving a problem more quickly when classic methods are
 	\item Frequently used to obtain an initial partition with subsequent iterative improvements
 \end{enumerate}
 
+\paragraph{Local Search}
 \paragraph{Group Migration – Min Cut}
 \begin{enumerate}
   \item Move individual objects to different groups and determine the resulting deltas in the target function
@@ -510,7 +534,9 @@ $Ratio = \frac{cut(P)}{size(p_1) \cdot size(p_2)}$
 \begin{enumerate}
 	\item Idea is inspired by annealing process of melted mass
 	\item Simulated degradation of temperature T such that a thermal equilibrium is attained for each T
-	\item The bigger the cost delta and the runtime, the lower is the probability to accept an inferior partition
+	\item The bigger the cost delta(temperature) and the runtime, the lower is the probability to accept an inferior partition
+	\item Fast cooling: fast convergence (inferior solution)
+	\item Slow cooling: slow convergence (better solution)
 	\item optimal method when temperature degradation happens arbitrarily slowly
 	\item Computational complexity of the method depends on actual implementation and can vary between exponential and polynomial
 \end{enumerate}
@@ -532,11 +558,11 @@ Applied to partitioning problem
 \end{center}
 
 \paragraph{Greedy Partitioning}
-Starting from a pure SW partition objects are moved into HW partition until performance requirements are met
+Starting from a pure SW partition objects are moved into HW partition until performance requirements are met. Motivation: minimize HW partition for reasons like area and development effort.
 $P_{init} = \{ p_{sw}, p_{hw} \} = \{ O, \O \}$
 
 \paragraph{Grupta Partitioning}
-Starting from a pure HW partition, objects are moved to SW partition as long as performance requirements are still met and target function is improved
+Starting from a pure HW partition, objects are moved to SW partition as long as performance requirements are still met and target function is improved. Motivation: minimize SW portion while considering condition and target function optimization.
 $P_{init} = \{ p_{sw}, p_{hw} \} = \{ \O, O \}$
 
 \paragraph{Tabu Search}
@@ -600,8 +626,14 @@ Dynamic methods are more flexible and may lead to better processor utilization. 
 
 \textbf{Periodic scheduling}: Scheduling of iterative tasks / processes with execution interval (period) T, relative deadline $t_d$ and priority
 
-\textbf{Sporatic sceduling}: Schedule sporatic occuring tasks with bounded rate and lower-bound inter arrival rate, but possibly assigned priority and deadline
+\textbf{Sporadic sceduling}: Schedule sporatic occuring tasks with bounded rate and lower-bound inter arrival rate, but possibly assigned priority and deadline
 latency
+
+\textbf{Cooperative Scheduling}: Job volunteers to free the processing resource (after certain amount of time)
+
+\textbf{Uni-Processor Scheduling}: For example map real time task only to specific core to ensure deadlines are met
+
+\textbf{Multi-Processor Scheduling}
 
 
 \begin{center}
@@ -622,6 +654,8 @@ latency
   \label{fig:schedulingtimingmetrics}
 \end{center}
 
+wait time: $t_{finished} - t_{release} - t_{exe}$
+
 \paragraph{Optimization Targets}
 
 \begin{center}
@@ -634,6 +668,8 @@ latency
 \subsection{Dynamic Scheduling}
 
 \textbf{preemptive}: Ability to preempt jobs or assign jobs after preemption to different processor resources creates “degrees of freedom” to achieve a feasible or improved schedule
+
+\textbf{Scheduling paradoxon}: Leaving CPU resources idle for some time can help in meeting deadlines.
 
 \paragraph{Round robin (RR)}
 
@@ -650,8 +686,10 @@ latency
   \includegraphics[width=\linewidth]{assets/FistComeFirstServed.png}
   \label{fig:fistcomefirstserved}
 \end{center}
+
+no starvation
  
-\paragraph{Shortest job first (SJF)}
+\paragraph{Shortest job first (SJF)}: minimize mean wait time or flow time, not preemptive
 
 \paragraph{Rate Monotonic Scheduling (RMS)}
 
@@ -661,17 +699,25 @@ latency
   \label{fig:ratemonotonicscheduling}
 \end{center}
 
-\textbf{Hyper Period} $H = lcm_i(T_i)$
+\textbf{Hyper Period} Job pattern repeats after $H = lcm_i(T_i)$
+
+\textbf{Sporadic Task}: may or may not occur
+
+If deadline violation: Tasks with lowest priority suffer first, Task with highest priority never suffers.
 
 \paragraph{Earliest Deadline First}
+Aperiodic, preemptive, dynamic priority(required), higher runtime cost than RMS, complexity $O(n^2)$, feasible schedule for n periodic or sporadic independent tasks on uniprocessor $\pi$ if $U_{\pi} \leq 1$, optimal with respect to minimizing maximum latenes of a task set V
+
+Whenever a new job arrives, the queue of ready jobs needs to be sorted by their deadlines.
 
 \paragraph{Shortest remaining time next (SRTN)}
 preemptive
 
-\paragraph{Least Laxity (LL)}
+\paragraph{Least Laxity (LL)} job with least laxity / slack is executed, for jobs that are waiting priority monotonically increases, higher overhead than EDF, guaranteed schedule for $U_{\pi} \leq 1$, many context switches $l(A,t) = d_A - t_{exe, remaining - t}$
+
 
 \paragraph{As soon as possible (ASAP)}
-No resource constrains!
+No resource constrains: latency optimal schedule, polynomial complexity, results in suboptimal solutions: cost, power, etc
 
 \paragraph{As Late As Possible (ALAP)}
 \textbf{mobility}: Indicates a start time window of a job to still satisfy $t_D^L$ 
@@ -680,12 +726,17 @@ Jobs $v_i$ with lowest mobility $\mu$ are in critical path(s) of G(V, E)
 
 $\mu(v_i) = s_{v_i}^{ALAP} - s_{v_i}^{ASAP}$
 
+\paragraph{with Resource Constraints}: give allocation $\alpha$, with resource constraints NP-hard -$>$ heuristic methods
+
 \paragraph{ASAP/ALAP with Conditional Task Shift}
 Starting point is an ASAP/ALAP schedule
 
 Check if schedule obeys resource constrain $\alpha(cpu) = 2; \alpha(acc) = 2$ 
 
 In case of resource constraint violation, tasks with positive mobility are shifted to later(ASAP) / earlier (ALAP time slot)
+
+\paragraph{HW vs SW}
+deterministic(low jitter) vs probabilistic(high jitter), parallel in space and time vs more often processing resource constraint(sequential in time)
 
 \paragraph{List Scheduling} 
 
@@ -695,9 +746,11 @@ In case of resource constraint violation, tasks with positive mobility are shift
   \label{fig:listschedulingexample}
 \end{center}
 
+enhancement of ASAP considering global criteria to determine the execution sequence of tasks, priority of task (example) = number of subsequent tasks OR sum of execution times of itself + subsequent tasks, -$>$ Definition of priorities matters for list scheduling, often suboptimal with bad priority
+
 \begin{center}
   \centering
-  \includegraphics[width=0.8\linewidth]{assets/ListSchedulingTut.png}
+  \includegraphics[width=\linewidth]{assets/ListSchedulingTut.png}
   \label{fig:listschedulingtut}
 \end{center}
 
@@ -770,7 +823,7 @@ Compute performance, Communication Bandwith
 Finite-State-Machine + Data Path
 
 \paragraph{Clock Rate Estimation: Control Path}
-$T_{clk} > \sum T_{logic} + T_{setup} + T_{pd}$
+$T_{clk} > \sum T_{logic} + T_{setup} + T_{c2q}$
 Logic depth (number of logic gates between registers) and wiring latencies determine FSM clock rate.
 
 \paragraph{Maximum Operator Latency}
@@ -783,16 +836,18 @@ $T_{clk} = max_k(delay(r_k))$
   \label{fig:slack}
 \end{center}
 
-\paragraph{Pipelining}
+\paragraph{Pipelining} Can improve throughput
 
 \paragraph{Generic Model}
-Estimate independent of CPU Model.
+Estimate independent of CPU Model. no need that compiler exists already at design time of cpu, lower accuracy - technology data is estimated
 
 \textbf{Worst Case Execution Time (WCET)}
 Hard real time requirements have to be met.
 
 \paragraph{Program Exeution Time $T_{ex}$}
 $T_{ex} = \frac{Instructions}{Program} \frac{clockCycles}{Instructions} \frac{seconds}{clockCycle)}$
+
+$T_{ex} = IC \cdot CPI \cdot T$
 
 \paragraph{Instruction Count Estimation with DFG / CFG}
 
