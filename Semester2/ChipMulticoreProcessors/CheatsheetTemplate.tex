@@ -1,0 +1,67 @@
+% % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % %
+% LaTeX4EI Template for Cheat Sheets                                Version 1.1
+%
+% Authors: Markus Hofbauer
+% Contact: info@latex4ei.de
+% Encode: UTF-8
+% % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % %
+
+
+% ======================================================================
+% Document Settings
+% ======================================================================
+
+% possible options: color/nocolor, english/german, threecolumn
+% defaults: color, english
+\documentclass[english]{latex4ei/latex4ei_sheet}
+
+% set document information
+\title{ChipMulticoreProcessors}
+% \author{LaTeX4EI}                    % optional, delete if unchanged
+% \myemail{info@latex4ei.de}           % optional, delete if unchanged
+% \mywebsite{www.latex4ei.de}          % optional, delete if unchanged
+% \usepackage{float}
+
+
+% ======================================================================
+% Begin
+% ======================================================================
+\begin{document}
+
+% Title
+% ----------------------------------------------------------------------
+\maketitle   % requires ./img/Logo.pdf
+
+
+% Section
+% ----------------------------------------------------------------------
+
+\section{Overview}
+
+
+dynamic power dissipation: $P_{dyn} = \alpha C f V_{dd}^2$
+
+processor coefficient: $\delta_0 = \alpha \cdot C$
+
+power density: $ Pd = \frac{P_{dyn}}{area \cdot N_{cores}} \quad [\frac{W}{mm^2}]$
+
+instructions per second: $ IPS = IPC \cdot f_{clk} \quad [\text{MIPS or GIPS}]$ 
+
+propagation delay: $t_{pd} \sim C \cdot \frac{1}{V_{dd} - V_t} $
+
+calculte new voltage: $t_{pd,1} = N_{cores} \cdot t_{pd,N}$
+
+amdahl's law: parallel execution time: $T' = (s + \frac{p}{N_p}) T$
+
+
+
+
+
+
+
+
+
+% ======================================================================
+% End
+% ======================================================================
+\end{document}
