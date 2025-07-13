@@ -1,0 +1,86 @@
+\documentclass[8pt]{extarticle}
+
+% set document information
+\title{Template}
+\author{Fabian Olbert}                    % optional, delete if unchanged
+% \myemail{info@latex4ei.de}           % optional, delete if unchanged
+% \mywebsite{www.latex4ei.de}          % optional, delete if unchanged
+% \usepackage{float}
+
+
+\usepackage{amsmath}
+\usepackage{xcolor}
+% \usepackage{sectsty}
+\usepackage{multicol}
+\usepackage[a4paper, landscape, margin=0.5cm]{geometry}
+\usepackage{microtype}
+\usepackage{ulem}
+\usepackage{listings}
+\usepackage{graphicx}
+
+
+\lstset{
+  basicstyle=\ttfamily\footnotesize, % Smaller font for listings
+  breaklines=true,                 % Allow lines to break
+  captionpos=b,                    % Caption at the bottom
+  numbers=left,                    % Line numbers on the left
+  numberstyle=\tiny\color{gray},   % Style for line numbers
+  showstringspaces=false           % Don't show spaces in strings with special char
+}
+
+
+% In your preamble
+\definecolor{catBlue}{HTML}{0065bd}
+\definecolor{nordicRed}{HTML}{FFFDE7	}
+
+\makeatletter\let\inserttitle\@title\makeatother
+\makeatletter\let\insertauthor\@author\makeatother
+
+\usepackage{titlesec}
+
+\titleformat{\section}[runin] % Command to customize
+{\large\scshape\color{catBlue}} % Format for the whole heading (font, size, weight, color)
+{\thesection  \quad} % The label (section number followed by a period)
+{0.1cm } % Horizontal separation between label and title text
+{} % Code to appear before the title text (e.g., \MakeUppercase)
+[]
+
+\titlespacing*{\section} % Use * version to affect first paragraph after heading too
+{0pt} % Left margin (indentation of the heading itself)
+{1.5ex plus 0.5ex minus 0.2ex} % Space BEFORE the heading (stretchable/shrinkable)
+                                 % Default is often around 3.5ex plus 1ex minus .2ex
+{0.5ex plus 0.2ex} % Space AFTER the heading (stretchable/shrinkable)
+                     % Default is often around 2.3ex plus .2ex
+
+\titleformat{\paragraph}[runin]
+{\normalfont\scshape\ttfamily\color{black}}{}{0cm}{}
+
+\titlespacing*{\paragraph}{0ex}{1.5ex}{3ex}
+
+% custom commands:
+\newcommand{\coloreq}[1]{\colorbox{nordicRed}{\(\displaystyle #1\)}}
+
+
+
+% ======================================================================
+% Begin
+% ======================================================================
+\begin{document}
+\setlength{\columnseprule}{0.2pt}
+
+\begin{multicols*}{4}
+
+
+% ---- apply title
+\noindent
+{\Large\scshape\color{catBlue}\inserttitle} % Large, bold title
+  %{\par\noindent\small\color{catBlue}\insertauthor} % Author name
+
+\section{Overview}
+
+..
+
+
+\end{multicols*}
+
+\end{document}
